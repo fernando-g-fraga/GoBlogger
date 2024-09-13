@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/yuin/goldmark"
 )
 
 type slugReader interface {
@@ -32,13 +35,22 @@ func (fsr FileReader) Read(slug string) (string, error) {
 func PostHandler(sl slugReader) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		slug := r.PathValue("slug")
-		markdown, err := sl.Read(slug)
+		postMarkdown, err := sl.Read(slug)
 
 		if err != nil {
 			http.Error(w, "Post not found", http.StatusNotFound)
 			return
 		}
-		fmt.Fprint(w, markdown)
+
+		var buf bytes.Buffer
+
+		err = goldmark.Convert([]byte(postMarkdown), &buf)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		io.Copy(w, &buf)
 	}
 }
 
