@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/yuin/goldmark"
+	highlighting "github.com/yuin/goldmark-highlighting/v2"
 )
 
 type slugReader interface {
@@ -44,7 +45,15 @@ func PostHandler(sl slugReader) http.HandlerFunc {
 
 		var buf bytes.Buffer
 
-		err = goldmark.Convert([]byte(postMarkdown), &buf)
+		mdConverter := goldmark.New(
+			goldmark.WithExtensions(
+				highlighting.NewHighlighting(
+					highlighting.WithStyle("dracula"),
+				),
+			),
+		)
+
+		err = mdConverter.Convert([]byte(postMarkdown), &buf)
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
