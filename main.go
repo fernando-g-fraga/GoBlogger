@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
@@ -17,6 +18,12 @@ type slugReader interface {
 }
 
 type FileReader struct{}
+
+type PostData struct {
+	Title   string
+	Content template.HTML
+	Author  string
+}
 
 func (fsr FileReader) Read(slug string) (string, error) {
 	f, err := os.Open(slug + ".md")
@@ -53,13 +60,24 @@ func PostHandler(sl slugReader) http.HandlerFunc {
 			),
 		)
 
+		tpl, err := template.ParseFiles("post.gohtml")
+		if err != nil {
+			http.Error(w, "Error parsing the HTML files", http.StatusInternalServerError)
+			return
+		}
+
 		err = mdConverter.Convert([]byte(postMarkdown), &buf)
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
-		io.Copy(w, &buf)
+		err = tpl.Execute(w, PostData{
+			Title:   "Must-Have Items for Cat Owners",
+			Content: template.HTML(buf.String()),
+			Author:  "Fernando Fraga",
+		})
+
 	}
 }
 
