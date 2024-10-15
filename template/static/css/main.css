@@ -11,23 +11,31 @@
 a{
   padding: 3px;
 }
-
+.page-footer {
+  padding: 10px;
+  text-align: center;
+}
 footer {
-  height: 60px;                /* Set a fixed height */
-  padding: 10px;               /* Adjust padding inside the footer */
-  text-align: center;          /* Center the text */
-  overflow: hidden;            /* Ensure content stays within the footer */
-  position: relative;          /* Maintain position relative to other elements */
+  margin-top: auto; /* Pushes the footer to the bottom */
 }
 
+#cv-pdf {
+  flex: 1; /* Makes sure content takes the remaining space */
+}
 
 img{
   padding: 5px;
 }
 
+html, body {
+  height: 100%; /* Ensure full height for html and body */
+}
+
 body{
   background-color: rgb(167, 242, 255)!important;
-  
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 .containerApresentacao{
