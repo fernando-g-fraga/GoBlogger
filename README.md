@@ -1,5 +1,5 @@
 # GoBlogger
-![gopher](/assets/images.png)
+![gopher](/template/static/img/png-transparent-golang-gopher-hd-logo-thumbnail.png)
 
 # Table of Contents
 - [GoBlogger](#goblogger)
