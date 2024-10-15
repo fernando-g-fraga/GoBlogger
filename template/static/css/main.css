@@ -1,29 +1,56 @@
 .h1{
-  padding-left: 30px;
+  margin-left: 30px;
+  padding: 5px;
 }
+
+.h2{
+  margin-left: 40px;
+  padding: 2px;
+}
+
 a{
   padding: 3px;
 }
 
-footer{
-  padding: 5px;
+footer {
+  height: 60px;                /* Set a fixed height */
+  padding: 10px;               /* Adjust padding inside the footer */
+  text-align: center;          /* Center the text */
+  overflow: hidden;            /* Ensure content stays within the footer */
+  position: relative;          /* Maintain position relative to other elements */
 }
+
 
 img{
   padding: 5px;
 }
 
-.apresentacao_title{
+body{
+  background-color: rgb(167, 242, 255)!important;
+  
+}
+
+.containerApresentacao{
+  align-content: center;
+  display: flexbox;
+  align-self: center;
+  position: absolute!important;
+}
+
+.headline{
   background-color: rgb(243, 202, 148);
   display: inline-block;
+  padding-bottom: 15px;
+  margin-bottom: 5px;
+  
 }
 
-.apresentacao_wrapper{
-  background-color: aquamarine;
+.content-container{
+  /* background-color: aquamarine; */
   margin-bottom: 15px;
-
-
 }
+
+.head
 
 /* Ensure the image is centered in the column */
 .col {
@@ -55,6 +82,9 @@ img{
   height: 100%; /* Make the images take up the entire height */
   object-fit: cover; /* Ensure the images cover the container without stretching */
 }
+
+.pdfobject-container { height: 500px; border: 1px solid #ccc; }
+
 
 /* Responsive adjustment for smaller screens */
 @media (max-width: 768px) {
