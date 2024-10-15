@@ -1,37 +1,28 @@
 {{template "head"}}
 
-<body>
-  <!-- Bootstrap CDN -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-    crossorigin="anonymous"
-  ></script>
-
-  <!-- navbar -->
-  {{template "nav"}}
+{{template "bootstrap"}}
 
   <div class="content-container">
       <div class="container mt-5">
+       <form method="post" action="/enviar_contato">
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">Nome</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Fernando Fraga">
+          <input name="nome" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fernando Fraga">
         </div>
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">E-mail</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          <input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
         </div>
         <div class="mb-3">
           <label for="exampleFormControlTextarea1" class="form-label">Mensagem</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea name="mensagem" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
-        <button type="button" class="btn btn-primary" action="submit">Enviar</button>
-        </div>
+        <button class="btn btn-primary" type="submit">Enviar</button>
+      </form>  
+      {{if .feito}}
+        <script>alert("Obrigado por entrar em contato!")</script>
+      {{end}}
+      </div>
         </div>
       </div>
     </body>

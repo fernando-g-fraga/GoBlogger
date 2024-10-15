@@ -30,6 +30,16 @@ func contato(c echo.Context) error {
 	return c.Render(http.StatusOK, "contato.html", data)
 }
 
+func send_contact(c echo.Context) error {
+	name := c.FormValue("nome")
+	email := c.FormValue("email")
+	mensagem := c.FormValue("mensagem")
+
+	return c.Render(http.StatusOK, "contato.html", map[string]bool{
+		"feito": true,
+	})
+}
+
 func main() {
 	t := &Template{
 		templates: template.Must(template.ParseGlob("template/pages/*.html")),
@@ -40,6 +50,7 @@ func main() {
 	e.Static("/", "template/static") //template/static/assets/output.css
 	e.GET("/", home)
 	e.GET("/contato", contato)
+	e.POST("/enviar_contato", send_contact)
 
 	e.Logger.Fatal(e.Start(":8080"))
 
