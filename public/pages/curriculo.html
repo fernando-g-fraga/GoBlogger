@@ -1,0 +1,10 @@
+{{template "head"}}
+<body>
+  <div id="cv-pdf">
+    <script src="https://unpkg.com/pdfobject"></script>
+    <script>PDFObject.embed("/cv.pdf", "#cv-pdf");</script>
+  </div>
+{{template "bootstrap"}}
+</body>
+{{ template "footer"}}
+</html>

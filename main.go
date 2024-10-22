@@ -1,79 +1,80 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
-	"io"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/fernandogfaga/GoBlogger/util"
+
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
 
-type Template struct {
-	templates *template.Template
-}
-
-func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
-}
-
-func home(c echo.Context) error {
-
-	data := map[string]string{
-		"title": "Home"}
-	return c.Render(http.StatusOK, "home.html", data)
-}
-
-func contato(c echo.Context) error {
-	data := map[string]string{
-		"title": "Contato",
-	}
-	return c.Render(http.StatusOK, "contato.html", data)
-}
-
-func send_contact(c echo.Context) error {
-	name := c.FormValue("nome")
-	email := c.FormValue("email")
-	mensagem := c.FormValue("mensagem")
-
-	mailnotification("mail", name, mensagem, email)
-
-	return c.Render(http.StatusOK, "contato.html", map[string]bool{
-		"feito": true,
-	})
-}
-
-func mailnotification(form string, name, message, email string) {
-	switch {
-	case form == "mail":
-		bigString := fmt.Sprintf("Você recebeu um novo contato! \n a pessoa %s, e-mail%s deixou a seguinte mensagem \n %s", name, email, message)
-		err := util.SendMail(bigString)
-
-		if err != nil {
-			log.Println("Error sending the email.")
-		}
-	}
-}
-
 func curriculo(c echo.Context) error {
-	return c.Render(http.StatusOK, "curriculo.html", "")
+	return c.Render(http.StatusOK, "curriculo.html", nil)
+}
+
+func blog_admin(c echo.Context) error {
+	return c.Render(http.StatusOK, "blog_admin.html", nil)
+}
+
+func blog_page(c echo.Context) error {
+	id := c.Param("id")
+	log.Println(id)
+	basepath := "template/static/blog/"
+	md, err := os.ReadFile(basepath + id + ".md")
+
+	if err != nil {
+		log.Println("Page not found.")
+	}
+
+	html := util.MDToHTML(md)
+
+	return c.HTML(http.StatusOK, string(html))
+}
+
+func blog(c echo.Context) error {
+	var all_files []string
+
+	files, err := os.ReadDir("template/static/blog/")
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	for _, file := range files {
+		log.Println(file.Name())
+		all_files = append(all_files, file.Name())
+	}
+
+	log.Println(all_files)
+
+	return c.Render(http.StatusOK, "blog.html", map[string][]string{
+		"s": all_files,
+	})
+
 }
 
 func main() {
-	t := &Template{
-		templates: template.Must(template.ParseGlob("template/pages/*.html")),
+	//load env
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Println("Error loading env variables")
 	}
-
-	e := echo.New()
-	e.Renderer = t
-	e.Static("/", "template/static") //template/static/assets/output.css
-	e.GET("/", home)
-	e.GET("/contato", contato)
-	e.GET("/curriculo", curriculo)
-	e.POST("/enviar_contato", send_contact)
-
+	//start Server
+	e := StartServer()
+	//Routing
+	Gethome(e)
+	Getcurriculo(e)
+	Getcontato(e)
+	Getblog(e)
+	GetblogAdmin(e)
+	GetBlogByID(e)
+	POSTBlog(e)
+	POSTContato(e)
+	//Run Server
 	e.Logger.Fatal(e.Start(":8080"))
 
 }

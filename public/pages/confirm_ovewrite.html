@@ -1,0 +1,11 @@
+<html>
+    <form action="/overwrite" hidden="true" method="POST" class="form-confirm">
+    <script>
+        const form = document.querySelector(".form-confirm")
+        if (window.confirm("O arquivo já existe, gostaria de sobrescrevê-lo? ")){
+            form.addEventListener(SubmitEvent)
+        }        
+        
+    </script>
+    </form>
+</html>

@@ -1,0 +1,40 @@
+{{template "head"}}
+<body class="formBlog">
+  
+  <!-- markdown editor https://github.com/sparksuite/simplemde-markdown-editor -->
+  <script src="https://cdn.jsdelivr.net/npm/simplemde@1.11/dist/simplemde.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde@1.11/dist/simplemde.min.css">
+
+  <form method="POST" action="/enviar_blog" class="markdownBlogPost"> 
+      <label for="exampleFormControlInput1" class="form-label" ><strong>Título</strong></label>
+      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Um título incrível!" name="titulo">
+
+      <!-- call markdown editor -->
+      <div class="editor-container">
+        <textarea name="post" id="md" ></textarea>
+      </div>
+      
+
+      <script>
+        var simplemde = new SimpleMDE({ element: document.getElementById("md") });
+      </script>
+
+   
+      <label for="exampleFormControlInput1" class="form-label" ><strong>Tags</strong></label>
+      <textarea class="form-control" id="hashtags" placeholder="#Me-Emprega!" name="tags"></textarea>
+       
+      <button class="btn btn-primary" type="submit">Enviar</button>
+ 
+</div>
+</form>
+
+
+<script src="js/helpers.js"></script>
+{{template "bootstrap"}}
+</body>
+{{ template "footer"}}
+</html>
+
+<script>
+  
+</script>

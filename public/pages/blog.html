@@ -1,0 +1,19 @@
+{{template "head"}}
+
+{{template "bootstrap"}}
+<body>
+  <div class="content-container">
+  
+    <p class="h1">Blog</p>
+
+  <h4>Lista de Posts:</h4>
+  <ul>
+    {{range .all_posts}}
+    <li>{{.}}</li>
+    {{ end }}
+  </ul>
+</div>      
+    </body>
+{{template "footer"}}
+  </html>
+
