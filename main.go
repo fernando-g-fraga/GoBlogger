@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -75,6 +76,8 @@ func main() {
 	POSTBlog(e)
 	POSTContato(e)
 	//Run Server
-	e.Logger.Fatal(e.Start(":8080"))
+	var port string
+	port = os.Getenv("PORT")
+	e.Logger.Fatal(e.Start(fmt.Sprintf(`":%s"`, port)))
 
 }
