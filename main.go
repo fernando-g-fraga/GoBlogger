@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -76,8 +75,10 @@ func main() {
 	POSTBlog(e)
 	POSTContato(e)
 	//Run Server
-	var port string
-	port = os.Getenv("PORT")
-	e.Logger.Fatal(e.Start(fmt.Sprintf(`":%s"`, port)))
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Println("Port must be set")
+	}
+	e.Logger.Fatal(e.Start(":" + port))
 
 }
