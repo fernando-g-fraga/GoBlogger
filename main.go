@@ -11,10 +11,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func curriculo(c echo.Context) error {
-	return c.Render(http.StatusOK, "curriculo.html", nil)
-}
-
 func blog_admin(c echo.Context) error {
 	return c.Render(http.StatusOK, "blog_admin.html", nil)
 }
@@ -77,7 +73,7 @@ func main() {
 	//Run Server
 	port := os.Getenv("PORT")
 	if port == "" {
-		log.Println("Port must be set")
+		port = "8080"
 	}
 	e.Logger.Fatal(e.Start(":" + port))
 

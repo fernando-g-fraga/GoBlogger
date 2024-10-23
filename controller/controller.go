@@ -22,7 +22,7 @@ func ContatoHandler(c echo.Context) error {
 }
 
 func CurriculoHandler(c echo.Context) error {
-	return nil
+	return c.Render(http.StatusOK, "curriculo.html", nil)
 }
 func BlogHandler(c echo.Context) error {
 	return nil
